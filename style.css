@@ -9,26 +9,26 @@ body{
     align-items: center;
     justify-content: center;
     min-height: 100svh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 .container{
    background-color: aliceblue;
    border-radius: 1rem;
    padding: 1rem;
+   display: flex;
+   flex-direction: column;
+   gap: 0.5rem;
 }
 
 .display{
     min-height: 7.5rem;
     background-color: peachpuff;
     border-radius: 0.5rem;
-    
-
 }
 
 .btnContainer{
-    padding: 0.5rem;
     width: fit-content;
-    
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -48,4 +48,9 @@ body{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex: 1 1 0;
+}
+
+.clear{
+    flex: 0;
 }
