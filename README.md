@@ -1,4 +1,4 @@
-A simple calculator built with HTML%, CSS3 and JavaScript as a part of The Odin curriculum. It performs basic Airthmetic operations such as Addition, Subtraction, Multiplication and Division.
+A simple calculator built with HTML%, CSS3 and JavaScript as a part of The Odin curriculum. It performs basic Arithmetic operations such as Addition, Subtraction, Multiplication and Division.
 
 Features
 -Perform basic math operations
