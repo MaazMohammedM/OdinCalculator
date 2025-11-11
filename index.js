@@ -1,3 +1,13 @@
+let numBtn = document.querySelectorAll('.num');
+let operaterBtns = document.querySelectorAll('.operator');
+let equalBtn = document.querySelector('.equal');
+let clearBtn = document.querySelector('.clear');
+let resultDisplay = document.querySelector('.result');
+let allClearBtn = document.querySelector('.allClear');
+
+let computableStr = '';
+let calculationDisplay = document.querySelector('.calculation');
+
 function add(a,b){
     return a+b;
 }
@@ -8,7 +18,12 @@ function mutiply(a,b){
     return a*b
 }
 function divide(a,b){
-    return a/b
+    if(b === 0){
+        computableStr = '';
+        return 'Cannot Divide By Zero'
+    } else {
+        return a/b
+    }
 }
 
 function operate(operater,a,b){
@@ -26,25 +41,36 @@ function operate(operater,a,b){
     }
 }
 
-let numBtn = document.querySelectorAll('.num');
-let operaterBtns = document.querySelectorAll('.operator');
-let equalBtn = document.querySelector('.equal');
-let clearBtn = document.querySelector('.clear');
-let resultDisplay = document.querySelector('.result');
-let allClearBtn = document.querySelector('.allClear');
 
-let computableStr = '';
-let calculationDisplay = document.querySelector('.calculation');
 
 
 numBtn.forEach((btn)=>{
     btn.addEventListener('click',function(){
-        displayCalc(btn)
+        if(resultDisplay.innerText.length > 0){
+            computableStr = '';
+            calculationDisplay.innerText = computableStr;
+            resultDisplay.innerText = '';
+            displayCalc(btn)
+        } else {
+            displayCalc(btn)
+        }
     })
 })
 operaterBtns.forEach((btn)=>{
     btn.addEventListener('click',function(){
-        displayCalc(btn)
+        if(computableStr.includes('+') || computableStr.includes("-") || computableStr.includes("*") || computableStr.includes('/') ){
+            let prevCalcVal = calculate();
+            computableStr = '';
+            calculationDisplay.innerText = computableStr;
+            computableStr+=prevCalcVal;
+            calculationDisplay.innerText = computableStr;
+            computableStr+=btn.innerText
+            calculationDisplay.innerText = computableStr;
+
+            
+        } else {
+            displayCalc(btn)
+        }
     })
 })
 
@@ -53,7 +79,7 @@ function displayCalc(btn){
         calculationDisplay.innerText = computableStr;
 }
 
-equalBtn.addEventListener('click',function(){
+function calculate(){
     let operater = '';
     if(computableStr.includes('+')){
         operater = "+"
@@ -74,8 +100,11 @@ equalBtn.addEventListener('click',function(){
     let result = operate(operater,numOne,numTwo);
     resultDisplay.innerText = result;
 
+    return result;
 
-})
+}
+
+equalBtn.addEventListener('click',calculate)
 clearBtn.addEventListener('click',function(){
     computableStr = computableStr.slice(0,-1);
     calculationDisplay.innerText = computableStr;
