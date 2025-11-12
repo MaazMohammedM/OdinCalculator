@@ -46,7 +46,18 @@ function operate(operater,a,b){
 
 numBtn.forEach((btn)=>{
     btn.addEventListener('click',function(){
-        if(resultDisplay.innerText.length > 0){
+
+        if((computableStr.endsWith('+') || computableStr.endsWith("-") || computableStr.endsWith("*") || computableStr.endsWith('/')) && resultDisplay.innerText.length > 0 ){
+            console.log(computableStr)
+            calculationDisplay.innerText = computableStr;
+            resultDisplay.innerText = '';
+            displayCalc(btn)
+            return
+        }
+
+
+
+        if(resultDisplay.innerText.length > 0 && resultDisplay.innerText.length > 0){
             computableStr = '';
             calculationDisplay.innerText = computableStr;
             resultDisplay.innerText = '';
