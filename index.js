@@ -4,38 +4,40 @@ let equalBtn = document.querySelector('.equal');
 let clearBtn = document.querySelector('.clear');
 let resultDisplay = document.querySelector('.result');
 let allClearBtn = document.querySelector('.allClear');
+let dotBtn = document.querySelector('.dot');
+
 
 let computableStr = '';
 let calculationDisplay = document.querySelector('.calculation');
 
-function add(a,b){
-    return a+b;
+function add(a, b) {
+    return a + b;
 }
-function subtract(a,b){
-    return a-b
+function subtract(a, b) {
+    return a - b
 }
-function mutiply(a,b){
-    return a*b
+function mutiply(a, b) {
+    return a * b
 }
-function divide(a,b){
-    if(b === 0){
+function divide(a, b) {
+    if (b === 0) {
         computableStr = '';
         return 'Cannot Divide By Zero'
     } else {
-        return a/b
+        return a / b
     }
 }
 
-function operate(operater,a,b){
-    switch(operater){
+function operate(operater, a, b) {
+    switch (operater) {
         case "+":
-           return  add(a,b)
+            return add(a, b)
         case "-":
-            return subtract(a,b)
+            return subtract(a, b)
         case "*":
-            return  mutiply(a,b)
+            return mutiply(a, b)
         case "/":
-             return divide(a,b)
+            return divide(a, b)
         default:
             return "Provide appropiate operator";
     }
@@ -44,10 +46,10 @@ function operate(operater,a,b){
 
 
 
-numBtn.forEach((btn)=>{
-    btn.addEventListener('click',function(){
+numBtn.forEach((btn) => {
+    btn.addEventListener('click', function () {
 
-        if((computableStr.endsWith('+') || computableStr.endsWith("-") || computableStr.endsWith("*") || computableStr.endsWith('/')) && resultDisplay.innerText.length > 0 ){
+        if ((computableStr.endsWith('+') || computableStr.endsWith("-") || computableStr.endsWith("*") || computableStr.endsWith('/')) && resultDisplay.innerText.length > 0) {
             console.log(computableStr)
             calculationDisplay.innerText = computableStr;
             resultDisplay.innerText = '';
@@ -57,7 +59,7 @@ numBtn.forEach((btn)=>{
 
 
 
-        if(resultDisplay.innerText.length > 0 && resultDisplay.innerText.length > 0){
+        if (resultDisplay.innerText.length > 0 && resultDisplay.innerText.length > 0) {
             computableStr = '';
             calculationDisplay.innerText = computableStr;
             resultDisplay.innerText = '';
@@ -67,38 +69,46 @@ numBtn.forEach((btn)=>{
         }
     })
 })
-operaterBtns.forEach((btn)=>{
-    btn.addEventListener('click',function(){
-        if(computableStr.includes('+') || computableStr.includes("-") || computableStr.includes("*") || computableStr.includes('/') ){
+
+
+operaterBtns.forEach((btn) => {
+    btn.addEventListener('click', function () {
+
+        if (computableStr.length === 0) {
+            calculationDisplay.innerText = '';
+            return
+        }
+
+        if (computableStr.includes('+') || computableStr.includes("-") || computableStr.includes("*") || computableStr.includes('/')) {
             let prevCalcVal = calculate();
             computableStr = '';
             calculationDisplay.innerText = computableStr;
-            computableStr+=prevCalcVal;
+            computableStr += prevCalcVal;
             calculationDisplay.innerText = computableStr;
-            computableStr+=btn.innerText
+            computableStr += btn.innerText
             calculationDisplay.innerText = computableStr;
 
-            
+
         } else {
             displayCalc(btn)
         }
     })
 })
 
-function displayCalc(btn){
-    computableStr+=btn.innerText;
-        calculationDisplay.innerText = computableStr;
+function displayCalc(btn) {
+    computableStr += btn.innerText;
+    calculationDisplay.innerText = computableStr;
 }
 
-function calculate(){
+function calculate() {
     let operater = '';
-    if(computableStr.includes('+')){
+    if (computableStr.includes('+')) {
         operater = "+"
-    } else if(computableStr.includes("-")){
+    } else if (computableStr.includes("-")) {
         operater = '-'
-    } else if(computableStr.includes("*")){
+    } else if (computableStr.includes("*")) {
         operater = "*"
-    } else if(computableStr.includes('/')){
+    } else if (computableStr.includes('/')) {
         operater = "/"
     }
 
@@ -108,24 +118,67 @@ function calculate(){
 
     console.log(numOne, numTwo, operater)
 
-    let result = operate(operater,numOne,numTwo);
-    resultDisplay.innerText = result;
+    let result = operate(operater, numOne, numTwo);
+    if (result % 1 !== 0) {
+        result = result.toFixed(2);
+        resultDisplay.innerText = result;
+        return result;
+    } else {
+        resultDisplay.innerText = result;
+        return result
+    }
 
-    return result;
 
 }
 
-equalBtn.addEventListener('click',calculate)
-clearBtn.addEventListener('click',function(){
-    computableStr = computableStr.slice(0,-1);
+equalBtn.addEventListener('click', function () {
+    if (computableStr.length === 0) {
+        calculationDisplay.innerText = '';
+        return
+    }
+    calculate()
+})
+
+
+clearBtn.addEventListener('click', function () {
+    computableStr = computableStr.slice(0, -1);
     calculationDisplay.innerText = computableStr;
     console.log(computableStr)
 })
 
-allClearBtn.addEventListener('click',function(){
+allClearBtn.addEventListener('click', function () {
     computableStr = '';
     calculationDisplay.innerText = '';
     resultDisplay.innerText = '';
+})
+
+
+dotBtn.addEventListener('click', function () {
+    if (computableStr.length === 0) {
+        return
+    }
+
+    if (computableStr.endsWith('+') ||
+    computableStr.endsWith('-') ||
+    computableStr.endsWith('.') ||
+    computableStr.endsWith('*') ||
+    computableStr.endsWith('/')) {
+    return;
+}
+
+
+    let splitByOperators = computableStr.split(/[\+\-\*\/]/);
+    let lastNum = splitByOperators.at(-1);
+    console.log(lastNum)
+
+    if(lastNum.includes('.')) return;
+   
+
+
+
+    computableStr += ".";
+    calculationDisplay.innerText = computableStr
+
 })
 
 
